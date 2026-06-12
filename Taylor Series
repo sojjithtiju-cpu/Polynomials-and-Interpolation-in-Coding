@@ -1,0 +1,67 @@
+import math
+
+def exponential(x,n):
+    y = 0
+    for i in range(0,n+1):
+        y = y + (x**i)/math.factorial(i)
+    return y
+
+def sinseries(x,n):
+    y = 0
+    for i in range(0,n+1):
+        y = y + ((-1)**i)*(x**((2*i)+1))/math.factorial((2*i)+1)
+    return y
+
+def cosseries(x,n):
+    y = 0
+    for i in range(0,n+1):
+        y = y + ((-1)**i)*(x**(2*i))/math.factorial(2*i)
+    return y
+
+def logarithm(x,n):
+    y = 0
+    for i in range(1,n+1):
+        y = y + ((-1)**(i+1))*((x-1)**i)/i
+    return y
+
+def taninverse(x,n):
+    y = 0
+    for i in range(0,n+1):
+        y = y + ((-1)**i)*(x**((2*i)+1))/((2*i)+1)
+    return y
+
+def binomial(x,n):
+    y = 0
+    for i in range(0,n+1):
+        y = y + (x**i)*(math.factorial(n))/((math.factorial(i))*math.factorial(n-i))
+    return y
+
+ans = 'y'
+while ans == 'y':
+    print('''MENU
+        
+        1 EXPONENTIAL
+        2 SIN SERIES
+        3 COS SERIES
+        4 LOG SERIES
+        5 TAN INVERSE
+        6 BINOMIAL
+          ''' )
+    ch = int(input("Enter your choice : "))
+    x = float(input("Enter x value : "))
+    n = int(input("Enter order of accuracy : "))
+    if ch == 1:
+        print("Answer is ",exponential(x,n))
+    elif ch == 2:
+        print("Answer is ",sinseries(x,n))
+    elif ch == 3:
+        print("Answer is ",cosseries(x,n))
+    elif ch == 4:
+        print("Answer is ",logarithm(x,n))
+    elif ch == 5:
+        print("Answer is ",taninverse(x,n))
+    elif ch == 6:
+        print("Answer is ",binomial(x,n))
+    else:
+        print("Invalid choice")
+    ans = input("Continue? y/n : ")
