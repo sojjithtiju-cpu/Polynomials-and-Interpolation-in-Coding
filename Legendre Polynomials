@@ -1,0 +1,86 @@
+def multiply(fn,c):
+    result = []
+    for i in fn:
+        result.append(i*c)
+    return result
+
+def listmultiply(A, B):
+    result = [0]*(len(A)+len(B)-1)
+    for i in range(len(A)):
+        for j in range(len(B)):
+            result[i+j] = result[i+j] + (A[i]*B[j])
+    return result
+    
+def subtract(A,B):
+    A = A.copy()
+    B = B.copy()
+    n = max(len(A),len(B))
+    while len(A) < n:
+        A.append(0)
+    while len(B) < n:
+        B.append(0)
+    result = []
+    for i in range(n):
+        result.append(A[i]-B[i])
+    return result
+
+def innerproduct(val):
+    sum = 0
+    for i in range(len(val)):
+        if i%2 == 0:
+            sum = sum+(val[i]*2/(i+1))
+        else:
+            sum = sum+0
+    return sum
+
+n = int(input("Enter order of function : "))
+fn = []
+m = n
+while m >= 0:
+    val = int(input(f"Enter coefficient of {m}th power : "))
+    fn.append(val)
+    m = m-1
+fn.reverse()
+print("Your function is : ")
+
+for i in range(len(fn)):
+    if i != len(fn)-1:
+        print(fn[i],"x^",i,end=" + ")
+    else:
+        print(fn[i],"x^",i)
+
+Legendrelist = []
+P0 = [1]
+P1 = [0,1]
+Legendrelist.append(P0)
+Legendrelist.append(P1)
+for i in range(2,n+1):
+    polylist = []
+    x1 = multiply([0]+Legendrelist[i-1],((2*i)-1)/i)
+    x2 = multiply(Legendrelist[i-2],(i-1)/i)
+    polylist = subtract(x1,x2)
+    Legendrelist.append(polylist)
+    
+print("Legendre Polynomials are : ")
+for i in range(len(Legendrelist)):
+    print("P",i," = ",end="")
+    for j in range(len(Legendrelist[i])):
+        if j != len(Legendrelist[i])-1:
+            print(Legendrelist[i][j],"x^",j,end=" + ")
+        else:
+            print(Legendrelist[i][j],"x^",j)
+
+Coefficients = []
+for i in range(len(Legendrelist)):
+    val = listmultiply(fn,Legendrelist[i])
+    newval = (innerproduct(val))*((2*i)+1)/2
+    Coefficients.append(newval)
+
+print("Legendre form of given eq is : ")
+i = 0
+for val in Coefficients:
+    if i != len(Coefficients)-1:
+        print(val,"P",i,end=" + ")
+    else:
+        print(val,"P",i)
+    i = i+1
