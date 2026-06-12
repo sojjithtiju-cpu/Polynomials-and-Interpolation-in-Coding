@@ -1,0 +1,17 @@
+X = []
+Y = []
+n = int(input("Enter no of samples : "))
+for i in range(0,n):
+    x = float(input(f"Enter {i}th x-coordinate : "))
+    y = float(input(f"Enter {i}th y-coordinate : "))
+    X.append(x)
+    Y.append(y)
+xval = float(input("Enter x-coordinate to calculate y-coordinate : "))
+sum = 0
+for i in range(n):
+    product = Y[i]
+    for j in range(n):
+        if i != j:
+            product = product*(xval-X[j])/(X[i]-X[j])
+    sum = sum + product
+print("Required y-coordinate at point ",xval,"is : ",sum)
