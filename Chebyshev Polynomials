@@ -1,0 +1,99 @@
+import math
+
+def multiply(fn,c):
+    result = []
+    for i in fn:
+        result.append(i*c)
+    return result
+
+def listmultiply(A, B):
+    result = [0]*(len(A)+len(B)-1)
+    for i in range(len(A)):
+        for j in range(len(B)):
+            result[i+j] = result[i+j] + (A[i]*B[j])
+    return result
+    
+def subtract(A,B):
+    A = A.copy()
+    B = B.copy()
+    n = max(len(A),len(B))
+    while len(A) < n:
+        A.append(0)
+    while len(B) < n:
+        B.append(0)
+    result = []
+    for i in range(n):
+        result.append(A[i]-B[i])
+    return result
+
+def doublefact(n):
+    product = 1
+    while n > 0:
+        product = product*n
+        n = n-2
+    return product
+
+def innerproduct(val):
+    sum = 0
+    for i in range(len(val)):
+        if i%2 == 0:
+            sum = sum+(val[i]*math.pi*doublefact(i-1)/doublefact(i))
+        else:
+            sum = sum+0
+    return sum
+
+n = int(input("Enter order of function : "))
+fn = []
+m = n
+while m >= 0:
+    val = int(input(f"Enter coefficient of {m}th power : "))
+    fn.append(val)
+    m = m-1
+fn.reverse()
+print("Your function is : ")
+
+for i in range(len(fn)):
+    if i != len(fn)-1:
+        print(fn[i],"x^",i,end=" + ")
+    else:
+        print(fn[i],"x^",i)
+
+Cheblist = []
+T0 = [1]
+T1 = [0,1]
+Cheblist.append(T0)
+Cheblist.append(T1)
+for i in range(2,n+1):
+    polylist = []
+    x1 = multiply([0]+Cheblist[i-1],2)
+    x2 = Cheblist[i-2]
+    polylist = subtract(x1,x2)
+    Cheblist.append(polylist)
+
+print("Chebyshev Polynomials are : ")
+for i in range(len(Cheblist)):
+    print("T",i," = ",end="")
+    for j in range(len(Cheblist[i])):
+        if j != len(Cheblist[i])-1:
+            print(Cheblist[i][j],"x^",j,end=" + ")
+        else:
+            print(Cheblist[i][j],"x^",j)
+
+Coefficients = []
+for i in range(len(Cheblist)):
+    val = listmultiply(fn,Cheblist[i])
+    newval = innerproduct(val)
+    if i == 0:
+        newval = newval/math.pi
+    else:
+        newval = newval*2/math.pi
+    Coefficients.append(newval)
+
+print("Chebyshev form of given eq is : ")
+i = 0
+for val in Coefficients:
+    if i != len(Coefficients)-1:
+        print(val,"T",i,end=" + ")
+    else:
+        print(val,"T",i)
+    i = i+1
